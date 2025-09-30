@@ -204,3 +204,68 @@ input[type="number"]:focus {
   color: var(--muted);
   text-align: center;
 }
+
+/* add subject list styling */
+.subjects {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+@media (min-width: 700px) {
+  .subjects {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.subject-item {
+  background: #0d1420;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: grid;
+  gap: 8px;
+}
+
+.subject-item .header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.subject-item .header .right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.subject-item .header .pct {
+  font-weight: 700;
+  min-width: 42px;
+  text-align: right;
+  color: var(--text);
+}
+
+.subject-item .name {
+  font-weight: 600;
+}
+
+.subject-item .actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.subject-item .summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+/* add donut chart styling */
+.donut-canvas {
+  width: 48px;
+  height: 48px;
+  display: block;
+}
