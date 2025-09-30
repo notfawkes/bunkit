@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BunkIt — Bunk Management</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header class="container">
+      <h1 class="title">BunkIt</h1>
+      <p class="subtitle">Track attendance and plan safe bunks</p>
+    </header>
+
+    <main class="container grid">
+      <section class="card">
+        <h2>Add Student</h2>
+        <form id="add-student-form" class="form-row" aria-label="Add student form">
+          <input type="text" id="student-name" placeholder="Enter name" aria-label="Student name" required />
+          <button type="submit" class="btn">Add</button>
+        </form>
+        <p class="hint">Tip: Names are unique keys.</p>
+      </section>
+
+      <section class="card">
+        <h2>Students</h2>
+        <ul id="students-list" class="list" role="list" aria-live="polite"></ul>
+      </section>
+
+      <section class="card span-2">
+        <h2>Details</h2>
+        <div id="details" class="details">
+          <p>Select a student to view stats.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="container footer">
+      <small>&copy; <span id="year"></span> BunkIt</small>
+    </footer>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
