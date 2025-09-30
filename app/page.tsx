@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useMemo, useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -39,29 +39,66 @@ function allowedBunks(attended: number, total: number, requiredPct: number) {
   return Math.max(0, isFinite(raw) ? raw : 0)
 }
 
+const API_BASE = "http://localhost:5000"
+
 export default function Page() {
-  // Local in-memory state to keep things simple and subject-only.
   const [students, setStudents] = useState<Student[]>([])
   const [activeStudentName, setActiveStudentName] = useState<string>("")
   const [newStudentName, setNewStudentName] = useState("")
   const [newSubjectName, setNewSubjectName] = useState("")
   const [requiredPct, setRequiredPct] = useState<number>(75)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  // Fetch students on component mount
+  useEffect(() => {
+    const fetchStudents = async () => {
+      try {
+        const response = await fetch(`${API_BASE}/students`)
+        if (!response.ok) throw new Error('Failed to fetch students')
+        const data = await response.json()
+        setStudents(data)
+        setError(null)
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to fetch students')
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchStudents()
+  }, [])
 
   const activeStudent = useMemo(
     () => students.find((s) => s.name === activeStudentName) || null,
     [students, activeStudentName],
   )
 
-  const addStudent = () => {
+  const addStudent = async () => {
     const name = newStudentName.trim()
     if (!name) return
     if (students.some((s) => s.name.toLowerCase() === name.toLowerCase())) {
       return
     }
-    const updated = [...students, { name, subjects: [] }]
-    setStudents(updated)
-    setActiveStudentName(name)
-    setNewStudentName("")
+    
+    try {
+      const response = await fetch(`${API_BASE}/students`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name })
+      })
+      
+      if (!response.ok) throw new Error('Failed to add student')
+      
+      const newStudent = await response.json()
+      setStudents([...students, newStudent])
+      setActiveStudentName(name)
+      setNewStudentName("")
+      setError(null)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to add student')
+    }
   }
 
   const addSubject = () => {
@@ -130,6 +167,18 @@ export default function Page() {
           Track each subject visually. Overall attendance is hidden by design.
         </p>
       </header>
+
+      {error && (
+        <div className="bg-destructive/15 text-destructive px-4 py-2 rounded-md mb-4">
+          {error}
+        </div>
+      )}
+      
+      {loading && (
+        <div className="flex items-center justify-center py-8">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+        </div>
+      )}
 
       <Tabs defaultValue="manage">
         <TabsList>
