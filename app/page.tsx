@@ -125,7 +125,7 @@ export default function Page() {
   return (
     <main className="container mx-auto max-w-5xl p-6">
       <header className="mb-6">
-        <h1 className="text-2xl font-semibold text-pretty">Bunk Management – Subject-wise Attendance</h1>
+        <h1 className="text-2xl font-semibold text-pretty">Bunk Management</h1>
         <p className="text-sm text-muted-foreground">
           Track each subject visually. Overall attendance is hidden by design.
         </p>
@@ -337,12 +337,14 @@ export default function Page() {
       </Tabs>
 
       {/* Color variables bound by ChartContainer */}
-      <style jsx global>{`
-        :root {
-          --color-attended: hsl(var(--chart-1));
-          --color-missed: hsl(var(--chart-2));
-        }
-      `}</style>
+      <style>
+        {`
+          :root {
+            --color-attended: hsl(var(--chart-1));
+            --color-missed: hsl(var(--chart-2));
+          }
+        `}
+      </style>
     </main>
   )
 }
