@@ -39,7 +39,7 @@ function allowedBunks(attended: number, total: number, requiredPct: number) {
   return Math.max(0, isFinite(raw) ? raw : 0)
 }
 
-const API_BASE = "http://localhost:5000"
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE
 
 export default function Page() {
   const [students, setStudents] = useState<Student[]>([])

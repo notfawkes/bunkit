@@ -3,7 +3,10 @@ from flask_cors import CORS
 from models import BunkManager
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app, resources={r"/*": {"origins": [
+    "http://localhost:3000",
+    "https://bunkit-notfawkes-projects.vercel.app"
+]}})
 
 manager = BunkManager()
 
